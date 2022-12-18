@@ -34,17 +34,13 @@ async def run(bot, message):
                 file_name = message.document.file_name
             elif message.audio:
                 file_name = message.audio.file_name
-            elif (message.document or message.video or message.audio):
-                  if message.caption:                        
-                     file_caption = f"**{message.caption}**"
             else:
-                file_name = None
-                file_caption = ""
+                file_name = None               
             await bot.copy_message(
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=Translation.CAPTION.format(file_caption),
+                caption=Translation.CAPTION.format(file_name),
                 message_id=message.id
             )
             files_count += 1
