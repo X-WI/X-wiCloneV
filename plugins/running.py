@@ -9,6 +9,8 @@ FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
 FILTER = Config.FILTER_TYPE
 
+document = enums.MessagesFilter.DOCUMENT
+
 @Client.on_message(filters.private & filters.command(["run"]))
 async def run(bot, message):
     if str(message.from_user.id) not in Config.OWNER_ID:
