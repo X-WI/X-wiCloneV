@@ -40,7 +40,7 @@ async def run(bot, message):
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=Translation.CAPTION.format(file_name),
+                caption=Translation.CAPTION.format(captiontext.file_caption),
                 message_id=message.id
             )
             files_count += 1
@@ -60,3 +60,19 @@ async def run(bot, message):
         reply_markup=reply_markup
     )
         
+
+
+async def captiontext(bot, message):
+      try:
+         media = message.document or message.video or message.audio
+         caption_text = CAPTION_TEXT
+      except:
+         caption_text = ""
+         pass 
+      if (message.document or message.video or message.audio): 
+          if message.caption:                        
+             file_caption = f"**{message.caption}**"                
+          else:
+             fname = media.file_name
+             filename = fname.replace("_", ".")
+             file_caption = f"`{filename}`"  
