@@ -40,7 +40,7 @@ async def run(bot, message):
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=caption,
+                caption=Translation.CAPTION.format(file_name),
                 message_id=message.id
             )
             files_count += 1
