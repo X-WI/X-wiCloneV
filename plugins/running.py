@@ -1,5 +1,5 @@
 import asyncio
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import FloodWait
 from config import Config
@@ -37,7 +37,7 @@ async def run(bot, message):
             await bot.copy_message(
                 chat_id=TO,
                 from_chat_id=FROM,
-                parse_mode="md",       
+                parse_mode=enums.ParseMode.MARKDOWN,       
                 caption=Translation.CAPTION.format(file_name),
                 message_id=message.id
             )
