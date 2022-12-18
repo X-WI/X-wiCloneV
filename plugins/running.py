@@ -39,7 +39,7 @@ async def run(bot, message):
                      file_caption = f"**{message.caption}**"
             else:
                 file_name = None
-                file_caption = None
+                file_caption = ""
             await bot.copy_message(
                 chat_id=TO,
                 from_chat_id=FROM,
