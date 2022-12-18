@@ -9,7 +9,7 @@ FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
 FILTER = Config.FILTER_TYPE
 
-document = enums.MessagesFilter.VIDEO, enums.MessagesFilter.DOCUMENT 
+document = enums.MessagesFilter.DOCUMENT 
 
 @Client.on_message(filters.private & filters.command(["run"]))
 async def run(bot, message):
