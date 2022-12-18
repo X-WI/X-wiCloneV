@@ -24,7 +24,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,offset=Config.SKIP_NO,limit=Config.LIMIT,filter=FILTER.value()):
+    async for message in bot.USER.search_messages(chat_id=FROM,offset=Config.SKIP_NO,limit=Config.LIMIT,filter=document):
         try:
             if message.video:
                 file_name = message.video.file_name
