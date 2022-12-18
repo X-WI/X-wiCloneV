@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Dark Angel
-
 import os
 import logging
 
@@ -14,7 +10,7 @@ class Config:
     CAPTION = None
     FROM_CHANNEL = "@bdbdhdhvh"
     FILTER_TYPE = "document"
-    OWNER_ID = 1903280447
+    OWNER_ID = "1903280447"
     LIMIT = 25000
     SKIP_NO = 0
     SESSION = "BQBWwwbTREQ6bu1Opb_kHsRqpjvYZsw34NXM--FFIWaKIvIGUl4aq269KKGgxw7b7bRsIZ8gsLkRISDMnYT3xrbWS82PvR_PV3rL_bmuz_OeNFsa_Iql91cQM9FA4z1Huv_68sarER3NSCizwC2QkL4QtbmQ21bxZCMnpeb8iYxb-yBGkaqSqXWxbUzTUCABY74pcCr46HG9comat6Z-6IfwRaHgEprkDzjGkBXUFFcmoLde75qtKXMRpA77xYN_uI2qRekBcQKnmRXsGoI9Mmh4Q4DkKWzFpTF9c57VaxNdzvrRVw_ROSC5kz84iGdpF91D-BQ-5z28lcfi0VwCZ8b_AAAAAWHA4M8A"
