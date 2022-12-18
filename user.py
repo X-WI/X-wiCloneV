@@ -1,19 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Dark Angel
-
-from config import Config
-from config import LOGGER
+from config import Config, LOGGER
 from pyrogram import Client, __version__
-
 
 class User(Client):
     def __init__(self):
         super().__init__(
-            Config.SESSION,
+            "botClient",
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
-            workers=4
+            session_string=Config.SESSION,
+            workers=20
         )
         self.LOGGER = LOGGER
 
