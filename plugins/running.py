@@ -9,7 +9,7 @@ FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
 FILTER = Config.FILTER_TYPE
 
-document = enums.MessagesFilter.DOCUMENT 
+document = enums.MessagesFilter.VIDEO 
 
 @Client.on_message(filters.private & filters.command(["run"]))
 async def run(bot, message):
@@ -26,7 +26,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,offset=Config.SKIP_NO,limit=Config.LIMIT,filter=document):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
         try:
             if message.video:
                 file_name = message.video.file_name
