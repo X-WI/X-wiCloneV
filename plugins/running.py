@@ -9,7 +9,7 @@ FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
 FILTER = Config.FILTER_TYPE
 
-document = enums.MessagesFilter.VIDEO 
+document = enums.MessagesFilter.VIDEO, enums.MessagesFilter.DOCUMENT 
 
 @Client.on_message(filters.private & filters.command(["run"]))
 async def run(bot, message):
@@ -40,7 +40,7 @@ async def run(bot, message):
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=Translation.CAPTION.format(file_name),
+                caption=caption,
                 message_id=message.id
             )
             files_count += 1
