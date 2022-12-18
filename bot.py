@@ -1,14 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Dark Angel
-
-from pyrogram import Client, __version__
-
-from config import Config
-from config import LOGGER
-
+from pyrogram import Client, enums, __version__
+from config import Config, LOGGER
 from user import User
-
 
 
 class Bot(Client):
@@ -17,23 +9,23 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            Config.BOT_SESSION,
+            "filebot",
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
             plugins={
                 "root": "plugins"
             },
-            workers=4,
-            bot_token=Config.BOT_TOKEN
+            workers=200,
+            bot_token=Config.BOT_TOKEN            
         )
         self.LOGGER = LOGGER
 
     async def start(self):
         await super().start()
-        usr_bot_me = await self.get_me()
-        self.set_parse_mode("html")
+        bot_details = await self.get_me()
+        self.set_parse_mode(enums.ParseMode.HTML)
         self.LOGGER(__name__).info(
-            f"@{usr_bot_me.username}  started! "
+            f"@{bot_details.username}  started! "
         )
         self.USER, self.USER_ID = await User().start()
 
