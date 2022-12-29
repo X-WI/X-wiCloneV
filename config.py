@@ -5,7 +5,7 @@ class Config:
     
     API_ID = 7961171
     API_HASH = "b2d798626afaf5f1e4bdb33988e3d377"
-    BOT_TOKEN = "5456442427:AAFkdG2kRm0L5WOpPFwGs0T7-PfSfxk8hQk"
+    BOT_TOKEN = "5955626700:AAHscmdUuf9DqvbVdOad5Hur5HpG8vCFCdE"
     BOT_SESSION = "bot" 
     CAPTION = "@HQFilms4U"
     FROM_CHANNEL = -1001739094949
