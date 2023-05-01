@@ -1,30 +1,26 @@
-from pyrogram import Client, enums, __version__
 from config import Config, LOGGER
-from user import User
+from pyrogram import Client, __version__
 
-
-class Userbot(Client):     
+class Userbot(Client):
     def __init__(self):
         super().__init__(
-            "filebot",
+            "botClient",
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
+            session_string=Config.SESSION,
+            workers=20,
             plugins={
                 "root": "plugins"
-            },
-            workers=200,
-            bot_token=Config.BOT_TOKEN            
+            }
         )
+
         self.LOGGER = LOGGER
 
     async def start(self):
         await super().start()
-        bot_details = await self.get_me()
-        self.set_parse_mode(enums.ParseMode.HTML)
-        self.LOGGER(__name__).info(
-            f"@{bot_details.username}  started! "
-        )
-     
+        usr_bot_me = await self.get_me()
+        return (self, usr_bot_me.id)
+
     async def stop(self, *args):
         await super().stop()
-        self.LOGGER(__name__).info("Userbot stopped. Bye.")
+        self.LOGGER(__name__).info("Bot stopped. Bye.")
