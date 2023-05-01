@@ -57,7 +57,7 @@ async def run(bot, message):
             files_count += 1
             await asyncio.sleep(5)
         except FloodWait as e:
-            await asyncio.sleep(e.value) 
+            await asyncio.sleep(e.x) 
         except Exception as e:
             print(e)
             pass
