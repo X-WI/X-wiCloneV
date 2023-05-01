@@ -20,15 +20,3 @@ async def stop_button(c: Client, cb: CallbackQuery):
 async def close(bot, update):
     await update.answer()
     await update.message.delete()
-
-@Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
-async def stop_button(c: Client, cb: CallbackQuery):
-    await cb.message.delete()
-    await cb.answer()
-    msg = await c.send_message(
-        text="<i>Trying To Stoping.....</i>",
-        chat_id=cb.message.chat.id
-    )
-    await asyncio.sleep(5)
-    await msg.edit("<i>File Forword Stoped Successfully 👍</i>")
-    os.execl(sys.executable, sys.executable, *sys.argv)
