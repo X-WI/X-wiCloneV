@@ -1,15 +1,19 @@
 from config import Config, LOGGER
 from pyrogram import Client, __version__
 
-class User(Client):
+class Userbot(Client):
     def __init__(self):
         super().__init__(
             "botClient",
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
             session_string=Config.SESSION,
-            workers=20
+            workers=20,
+            plugins={
+                "root": "plugins"
+            }
         )
+
         self.LOGGER = LOGGER
 
     async def start(self):
