@@ -44,7 +44,7 @@ async def run(bot, message):
             elif message.document:
                 file_name = message.document.file_name
             elif message.audio:
-                file_name = message.audio.file_name
+                file_name = message.audio.file_name 
             else:
                 file_name = None               
             await bot.copy_message(
@@ -57,7 +57,7 @@ async def run(bot, message):
             files_count += 1
             await asyncio.sleep(5)
         except FloodWait as e:
-            await asyncio.sleep(e.x) 
+            await asyncio.sleep(e.value) 
         except Exception as e:
             print(e)
             pass
