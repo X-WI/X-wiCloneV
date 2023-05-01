@@ -36,7 +36,7 @@ async def fetch_messages(bot, start_id, stop_id):
 
 
 @Client.on_message(filters.private & filters.command(["clone"]))
-async def run(bot, message):
+async def clone(bot, message):
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
     
