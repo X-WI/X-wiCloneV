@@ -12,7 +12,7 @@ FILTER = Config.FILTER_TYPE
 document = enums.MessagesFilter.VIDEO 
 
 async def fetch_messages(bot, start_id, stop_id):
-    async for message in bot.iter_history(chat_id=FROM, filter=document):
+    async for message in bot.search_messages(chat_id=FROM, filter=document):
         if message.id < start_id or message.id > stop_id:
             # skip the message if it is not in the desired range
             continue
