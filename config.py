@@ -8,7 +8,7 @@ class Config:
     BOT_TOKEN = "5068899226:AAGrSpHXOetSe-q_YSL4Sa6ghs2hhdn2Ls4"
     BOT_SESSION = "bot" 
     CAPTION = "@HQFilms4U"
-    FROM_CHANNEL = "@ccgfdjhdjjgdsd" #https://t.me/ ccgfdjhdjjgdsd
+    FROM_CHANNEL = -1001667023505 #https://t.me/ ccgfdjhdjjgdsd
     FILTER_TYPE = "document"
     OWNER_ID = "5163706369"
     LIMIT = 2
