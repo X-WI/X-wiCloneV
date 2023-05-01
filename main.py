@@ -1,4 +1,4 @@
-from bot import Bot
+from bot import Userbot
 
-app = Bot()
+app = Userbot()
 app.run()
