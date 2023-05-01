@@ -51,7 +51,7 @@ async def run(bot, message):
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=message.caption,
+                caption=f"**{message.caption}**",
                 message_id=message.id
             )
             files_count += 1
