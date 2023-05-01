@@ -26,7 +26,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
+    async for message in bot.search_messages(chat_id=FROM,filter=document):
         try:
             if message.video:
                 file_name = message.video.file_name
@@ -40,7 +40,7 @@ async def run(bot, message):
                 chat_id=TO,
                 from_chat_id=FROM,
                 parse_mode=enums.ParseMode.MARKDOWN,       
-                caption=Translation.CAPTION.format(file_name),
+                caption=message.caption,
                 message_id=message.id
             )
             files_count += 1
