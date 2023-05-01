@@ -1,4 +1,3 @@
-Hello = """
 import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
@@ -30,7 +29,7 @@ async def run(bot, message):
     ]]
     reply_markup = InlineKeyboardMarkup(buttons)
     m = await bot.send_message(
-        text="<i>Reverse File Forwarding Started😉</i>",
+        text="<i>File Forwarding Started😉</i>",
         reply_markup=reply_markup,
         chat_id=message.chat.id
     )
@@ -38,7 +37,7 @@ async def run(bot, message):
     files_count = 0
     async for message in bot.search_messages(chat_id=FROM, filter=document):
         try:
-            if message.id > start_id or message.id < stop_id:
+            if message.id < start_id or message.id > stop_id:
                 continue
             if message.video:
                 file_name = message.video.file_name
@@ -56,7 +55,7 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(1)
+            await asyncio.sleep(5)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
@@ -68,7 +67,7 @@ async def run(bot, message):
     ]] 
     reply_markup = InlineKeyboardMarkup(buttons)
     await m.edit(
-        text=f"<u><i>Successfully Reverse Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
         reply_markup=reply_markup
     )
-"""
+
