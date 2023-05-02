@@ -35,7 +35,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.search_messages(chat_id=FROM, filter=document):
+    async for message in bot.User.search_messages(chat_id=FROM, filter=document):
         try:
             if message.id < start_id or message.id > stop_id:
                 continue
@@ -55,7 +55,7 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
