@@ -20,6 +20,7 @@ from config import Config
 #filter_two = Config.FILTERCHANNEL_2_ID
 
 DOCUMENT = enums.MessagesFilter.DOCUMENT
+VIDEOS = enums.MessagesFilter.VIDEO 
 BUTTONS = {}
  
 
@@ -30,7 +31,7 @@ async def filter(client: Bot, message: Message):
 
     if len(message.text) > 2:    
         btn = []
-        async for msg in client.USER.search_messages(-1001531149575,query=message.text,filter=DOCUMENT):
+        async for msg in client.USER.search_messages(Config.SEARCHCHANNEL_ID,query=message.text,filter=VIDEOS):
             file_name = msg.document.file_name
             msg_id = msg.id                     
             link = msg.link
