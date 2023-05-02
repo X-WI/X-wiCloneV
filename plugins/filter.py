@@ -1,27 +1,13 @@
-import re
-import pyrogram
-
-from pyrogram import filters, Client, enums
-
-
-from pyrogram.types import (
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup, 
-    Message,
-    CallbackQuery
-)
-
-from bot import Bot
+import re, pyrogram, logging
+from pyrogram import filters, enums, Client
 from config import Config
+from bot import Bot
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)   
 
-
-#filter_one = Config.FILTERCHANNEL_1_ID
-#filter_two = Config.FILTERCHANNEL_2_ID
-
-DOCUMENT = enums.MessagesFilter.DOCUMENT
-VIDEOS = enums.MessagesFilter.VIDEO 
+MEDIA_FILTER = enums.MessagesFilter.VIDEO 
 BUTTONS = {}
- 
 
 @Client.on_message(filters.chat(Config.GROUPS) & filters.text)
 async def filter(client: Bot, message: Message):
@@ -30,7 +16,7 @@ async def filter(client: Bot, message: Message):
 
     if len(message.text) > 2:    
         btn = []
-        async for msg in client.USER.search_messages(Config.SEARCHCHANNEL_ID,query=message.text,filter=VIDEOS):
+        async for msg in client.USER.search_messages(Config.SEARCHCHANNEL_ID,query=message.text,filter=MEDIA_FILTER):
             file_name = msg.video.file_name
             msg_id = msg.id                     
             link = msg.link
@@ -73,6 +59,7 @@ async def filter(client: Bot, message: Message):
                 f"<b> Here is the result for {message.text}</b>",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )    
+
 
 @Client.on_callback_query()
 async def cb_handler(client: Bot, query: CallbackQuery):
@@ -154,8 +141,6 @@ async def cb_handler(client: Bot, query: CallbackQuery):
     else:
         await query.answer("Thats not for you!!",show_alert=True)
 
-
 def split_list(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]  
-
