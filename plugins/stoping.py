@@ -1,8 +1,9 @@
-import os
-import sys
-import asyncio
+import asyncio, sys, os, logging
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
+
 
 @Client.on_callback_query(filters.regex(r'^stop_btn$'))
 async def stop_button(c: Client, cb: CallbackQuery):
