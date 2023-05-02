@@ -16,14 +16,14 @@ from script import script
 from config import Config
 
 
-filter_one = Config.FILTERCHANNEL_1_ID
-filter_two = Config.FILTERCHANNEL_2_ID
+#filter_one = Config.FILTERCHANNEL_1_ID
+#filter_two = Config.FILTERCHANNEL_2_ID
 
 DOCUMENT = enums.MessagesFilter.DOCUMENT
 BUTTONS = {}
  
 
-@Client.on_message(filters.group & filters.text)
+@Client.on_message(filters.chat(Config.GROUPS) & filters.text)
 async def filter(client: Bot, message: Message):
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
