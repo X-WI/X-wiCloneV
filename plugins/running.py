@@ -1,9 +1,11 @@
-import asyncio
+import asyncio, sys, os, logging
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 from config import Config
 from translation import Translation
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
 
 FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
