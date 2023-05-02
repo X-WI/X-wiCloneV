@@ -4,7 +4,7 @@ from translation import Translation
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-@Client.on_message(filters.private & filters.command(['start']))
+@Client.on_message(filters.command('start') & filters.user(Config.ADMINS))
 async def start(client, message):
     buttons = [[
         InlineKeyboardButton('📜 Channel', url='https://t.me/Lx0980_Official'),
@@ -20,7 +20,7 @@ async def start(client, message):
                 message.from_user.first_name),
         parse_mode=enums.ParseMode.HTML)
 
-@Client.on_message(filters.private & filters.command(['help']))
+@Client.on_message(filters.command('help') & filters.user(Config.ADMINS))
 async def help(client, message):
     buttons = [[
         InlineKeyboardButton('close 🔐', callback_data='close_btn')
@@ -32,7 +32,7 @@ async def help(client, message):
         text=Translation.HELP_TXT,
         parse_mode=enums.ParseMode.HTML)
 
-@Client.on_message(filters.private & filters.command(['about']))
+@Client.on_message(filters.command('about') & filters.user(Config.ADMINS))
 async def about(client, message):
     buttons = [[
         InlineKeyboardButton('💡 SouceCode', url='https://github.com/Sh-Jil/Forwardit'),
