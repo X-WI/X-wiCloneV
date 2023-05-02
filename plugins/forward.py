@@ -2,6 +2,8 @@ import os, asyncio, logging
 from pyrogram.errors import FloodWait
 from pyrogram import Client, filters, enums
 from config import Config 
+logger = logging.getLogger(__name__)
+
 
 media_filter = filters.document | filters.video 
 caption_text = "➠ @Hollywood_0980\n➠ @DFF_UPDATES"
