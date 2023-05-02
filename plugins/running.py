@@ -89,7 +89,7 @@ async def stop_button(c: Client, cb: CallbackQuery):
         text="<i>Trying To Stoping.....</i>",
         chat_id=cb.message.chat.id
     )
-    await asyncio.sleep(5)
+    await asyncio.sleep(10)
     await msg.edit("<i>File Forword Stoped Successfully 👍</i>")
     os.execl(sys.executable, sys.executable, *sys.argv)
     
