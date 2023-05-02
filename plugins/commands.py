@@ -1,4 +1,7 @@
 import os
+import logging
+logger = logging.getLogger(__name__)
+
 from config import Config
 from translation import Translation
 from pyrogram import Client, filters, enums
