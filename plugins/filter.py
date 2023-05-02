@@ -1,10 +1,13 @@
-import re, pyrogram, logging
+import re, pyrogram
 from pyrogram import filters, enums, Client
 from config import Config
 from bot import Bot
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+
+import logging
+
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)   
+logger.setLevel(logging.ERROR)
 
 MEDIA_FILTER = enums.MessagesFilter.VIDEO 
 BUTTONS = {}
