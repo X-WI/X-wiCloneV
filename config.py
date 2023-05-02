@@ -5,7 +5,7 @@ class Config:
     
     API_ID = 28298577
     API_HASH = "143efc9236a955d630ede2642578b251"
-    BOT_TOKEN = "5773135086:AAHQ0s6IDn697XQGcJaTa8U2CVCjGUn1ilI"
+    BOT_TOKEN = "5639275178:AAFShODiOVdWGX95uPmUQoihJGUFIhWNwi0"
     BOT_SESSION = "bot" 
     FROM_CHANNEL = -1001667023505 #https://t.me/ ccgfdjhdjjgdsd
     FILTER_TYPE = "document"
