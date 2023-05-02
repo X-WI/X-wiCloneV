@@ -4,6 +4,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQ
 from pyrogram.errors import FloodWait
 from config import Config
 from translation import Translation
+import datetime
 
 import logging
 
@@ -79,19 +80,18 @@ async def run(bot, message):
     )
 
 
-
-
 @Client.on_callback_query(filters.regex(r'^stop_btn$'))
 async def stop_button(c: Client, cb: CallbackQuery):
     await cb.message.delete()
     await cb.answer()
     msg = await c.send_message(
-        text="<i>Trying To Stoping.....</i>",
+        text=f"<i>Trying To Stoping..... {datetime.datetime.now()}</i>",
         chat_id=cb.message.chat.id
     )
-    await asyncio.sleep(10)
-    await msg.edit("<i>File Forword Stoped Successfully 👍</i>")
+    await asyncio.sleep(5)
+    await msg.edit(f"<i>File Forword Stoped Successfully 👍 {datetime.datetime.now()}</i>")
     os.execl(sys.executable, sys.executable, *sys.argv)
+
     
 @Client.on_callback_query(filters.regex(r'^close_btn$'))
 async def close(bot, update):
