@@ -18,12 +18,14 @@ async def run(bot, message):
     
     # Get start and stop message IDs from command
     message_text = message.text.split()
-    if len(message_text) < 3:
-        await message.reply_text("Please provide start and stop message IDs.")
+    if len(message_text) < 4:
+        await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs.")
         return
-    start_id = int(message_text[1])
-    stop_id = int(message_text[2])
-    
+    FROM = int(message_text[1])
+    TO = int(message_text[2])
+    start_id = int(message_text[3])
+    stop_id = int(message_text[4])
+        
     buttons = [[
         InlineKeyboardButton('🚫 STOP', callback_data='stop_btn')
     ]]
