@@ -37,7 +37,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.User.search_messages(chat_id=FROM, filter=document):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
         try:
             if message.id < start_id or message.id > stop_id:
                 continue
