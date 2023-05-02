@@ -2,7 +2,7 @@ import os
 from config import Config
 from translation import Translation
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 import logging
 
 logger = logging.getLogger(__name__)
@@ -52,4 +52,9 @@ async def about(client, message):
         parse_mode=enums.ParseMode.HTML
     )
 
+
+@Client.on_callback_query(filters.regex(r'^close_btn$'))
+async def close(bot, update):
+    await update.answer()
+    await update.message.delete()
         
