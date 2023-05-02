@@ -28,7 +28,7 @@ async def start(client, message):
 @Client.on_message(filters.command('help') & filters.user(Config.ADMINS))
 async def help(client, message):
     buttons = [[
-        InlineKeyboardButton('close 🔐', callback_data='close_btn')
+        InlineKeyboardButton('close 🔐', callback_data='close_btns')
     ]]
     reply_markup = InlineKeyboardMarkup(buttons)
     await client.send_message(
@@ -41,7 +41,7 @@ async def help(client, message):
 async def about(client, message):
     buttons = [[
         InlineKeyboardButton('💡 SouceCode', url='https://github.com/Sh-Jil/Forwardit'),
-        InlineKeyboardButton('close 🔐', callback_data='close_btn')
+        InlineKeyboardButton('close_btns', callback_data='close_btn')
     ]]
     reply_markup = InlineKeyboardMarkup(buttons)
     await client.send_message(
@@ -53,8 +53,8 @@ async def about(client, message):
     )
 
 
-@Client.on_callback_query(filters.regex(r'^close_btn$'))
-async def close(bot, update):
+@Client.on_callback_query(filters.regex(r'^close_btns$'))
+async def closes(bot, update):
     await update.answer()
     await update.message.delete()
         
