@@ -15,7 +15,7 @@ More details <code>/userbot_help</code></i>"""
 * /userbot_start - <b>Bot Alive</b>
 * /userbot_help - <b>more help</b>
 * /clone - <b>start forward</b>
-       format = <code>/clone from_id to_id start_id end_id</code>
+       format = <code>/clone from_id to_id start_id end_id delay_second</code> <b> separate with space</b> example : <code> /clone -10077775444 -10073774747 34 3747 23</code>
 
 * /userbot_about - <b>About Me</b>
 
