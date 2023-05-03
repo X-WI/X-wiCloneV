@@ -1,24 +1,21 @@
 import asyncio, sys, os
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 from config import Config
-from translation import Translation
-import datetime
 
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
 
-FROM = Config.FROM_CHANNEL
-TO = Config.TO_CHANNEL
-FILTER = Config.FILTER_TYPE
+DOCUMENT = enums.MessagesFilter.DOCUMENT 
+VIDEOS = enums.MessagesFilter.VIDEO
 
-document = enums.MessagesFilter.VIDEO 
+is_forwarding = False
 
-@Client.on_message(filters.private & filters.command(["run"]))
+@Client.on_message(filters.private & filters.command(["clone"]))
 async def run(bot, message):
+    global is_forwarding
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
     
@@ -31,20 +28,18 @@ async def run(bot, message):
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
-        
-    buttons = [[
-        InlineKeyboardButton('🚫 STOP', callback_data='stop_btn')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
+            
     m = await bot.send_message(
-        text="<i>File Forwarding Started😉</i>",
-        reply_markup=reply_markup,
+        text="<i>File Forwarding Started😉</i>",        
         chat_id=message.chat.id
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
+    is_forwarding = True
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
         try:
+            if not is_forwarding:
+                break
             if message.id < start_id or message.id > stop_id:
                 continue
             if message.video:
@@ -63,37 +58,27 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(2)
+            await asyncio.sleep(10)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
             print(e)
             pass
-   # await m.delete()
-    buttons = [[
-        InlineKeyboardButton('📜 Channel', url='https://t.me/Lx0980_Official')
-    ]] 
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await m.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
-        reply_markup=reply_markup
-    )
 
-
-@Client.on_callback_query(filters.regex(r'^stop_btn$'))
-async def stop_button(c: Client, cb: CallbackQuery):
-    await cb.message.delete()
-    await cb.answer()
-    msg = await c.send_message(
-        text=f"<i>Trying To Stoping..... {datetime.datetime.now()}</i>",
-        chat_id=cb.message.chat.id
-    )
-    await asyncio.sleep(7)
-    await msg.edit(f"<i>File Forword Stoped Successfully 👍 {datetime.datetime.now()}</i>")
-    os.execl(sys.executable, sys.executable, *sys.argv)
-
+    is_forwarding = False
     
-@Client.on_callback_query(filters.regex(r'^close_btn$'))
-async def close(bot, update):
-    await update.answer()
-    await update.message.delete()
+    await m.edit(
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
+    )
+
+@Client.on_message(filters.private & filters.command(["stop"]))
+async def stop_forwarding(bot, message):
+    global is_forwarding
+    if str(message.from_user.id) not in Config.OWNER_ID:
+        return
+    
+    if is_forwarding:
+        is_forwarding = False
+        await message.reply_text("File forwarding process stopped.")
+    else:
+        await message.reply_text("File forwarding process is not running.")
