@@ -11,8 +11,11 @@ logger = logging.getLogger(__name__)
 DOCUMENT = enums.MessagesFilter.DOCUMENT 
 VIDEOS = enums.MessagesFilter.VIDEO
 
+is_forwarding = False
+
 @Client.on_message(filters.private & filters.command(["clone"]))
 async def run(bot, message):
+    global is_forwarding
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
     
@@ -25,20 +28,18 @@ async def run(bot, message):
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
-        
-    buttons = [[
-        InlineKeyboardButton('🚫 STOP', callback_data='stop_btn')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
+            
     m = await bot.send_message(
-        text="<i>File Forwarding Started😉</i>",
-        reply_markup=reply_markup,
+        text="<i>File Forwarding Started😉</i>",        
         chat_id=message.chat.id
     )
 
     files_count = 0
+    is_forwarding = True
     async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
         try:
+            if not is_forwarding:
+                break
             if message.id < start_id or message.id > stop_id:
                 continue
             if message.video:
@@ -63,14 +64,20 @@ async def run(bot, message):
         except Exception as e:
             print(e)
             pass
-   # await m.delete()
-    buttons = [[
-        InlineKeyboardButton('📜 Channel', url='https://t.me/Lx0980_Official')
-    ]] 
-    reply_markup = InlineKeyboardMarkup(buttons)
+
+    is_forwarding = False    
     await m.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
-        reply_markup=reply_markup
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
 
-
+@Client.on_message(filters.private & filters.command(["stop"]))
+async def stop_forwarding(bot, message):
+    global is_forwarding
+    if str(message.from_user.id) not in Config.OWNER_ID:
+        return
+    
+    if is_forwarding:
+        is_forwarding = False
+        await message.reply_text("File forwarding process stopped.")
+    else:
+        await message.reply_text("File forwarding process is not running.")
