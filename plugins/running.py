@@ -36,7 +36,7 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
+    async for message in bot.search_messages(chat_id=FROM,filter=VIDEOS):
         try:
             if not is_forwarding:
                 break
