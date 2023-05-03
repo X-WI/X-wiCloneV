@@ -1,17 +1,17 @@
 import asyncio, sys, os
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 from config import Config
-from translation import Translation
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-document = enums.MessagesFilter.VIDEO 
+DOCUMENT = enums.MessagesFilter.DOCUMENT 
+VIDEOS = enums.MessagesFilter.VIDEO
 
-@Client.on_message(filters.private & filters.command(["run"]))
+@Client.on_message(filters.private & filters.command(["clone"]))
 async def run(bot, message):
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
@@ -37,7 +37,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
         try:
             if message.id < start_id or message.id > stop_id:
                 continue
