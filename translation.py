@@ -21,6 +21,6 @@ More details /help</i>"""
 <b>Name :</b> <code>Auto Forward Bot</code>
 <b>Credit :</b> <code>Sh'Jil</code>
 <b>Language :</b> <code>Python3</code>
-<b>Lybrary :</b> <code>Pyrogram v1.2.9</code>
+<b>Lybrary :</b> <code>Pyrogram v2.0.60</code>
 <b>Server :</b> <code>Heroku</code>
 <b>Build :</b><code>V0.1</code>"""
