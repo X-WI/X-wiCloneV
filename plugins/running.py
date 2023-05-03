@@ -1,9 +1,15 @@
-import asyncio
+import asyncio, sys, os
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import FloodWait
 from config import Config
 from translation import Translation
+import datetime
+
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
 
 FROM = Config.FROM_CHANNEL
 TO = Config.TO_CHANNEL
@@ -18,12 +24,14 @@ async def run(bot, message):
     
     # Get start and stop message IDs from command
     message_text = message.text.split()
-    if len(message_text) < 3:
-        await message.reply_text("Please provide start and stop message IDs.")
+    if len(message_text) < 4:
+        await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs.")
         return
-    start_id = int(message_text[1])
-    stop_id = int(message_text[2])
-    
+    FROM = int(message_text[1])
+    TO = int(message_text[2])
+    start_id = int(message_text[3])
+    stop_id = int(message_text[4])
+        
     buttons = [[
         InlineKeyboardButton('🚫 STOP', callback_data='stop_btn')
     ]]
@@ -35,7 +43,7 @@ async def run(bot, message):
     )
 
     files_count = 0
-    async for message in bot.search_messages(chat_id=FROM, filter=document):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
         try:
             if message.id < start_id or message.id > stop_id:
                 continue
@@ -55,7 +63,7 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
@@ -70,4 +78,5 @@ async def run(bot, message):
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
         reply_markup=reply_markup
     )
+
 
