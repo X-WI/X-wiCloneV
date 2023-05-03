@@ -1,9 +1,11 @@
-import asyncio
-import logging
+
+import asyncio, sys, os
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 from config import Config
+
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -35,45 +37,39 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-    while is_forwarding:
-        async for message in bot.search_messages(chat_id=FROM,filter=VIDEOS):
-            try:
-                if not is_forwarding:
-                    break
-                if message.id < start_id or message.id > stop_id:
-                    continue
-                if message.video:
-                    file_name = message.video.file_name
-                elif message.document:
-                    file_name = message.document.file_name
-                elif message.audio:
-                    file_name = message.audio.file_name 
-                else:
-                    file_name = None               
-                await bot.copy_message(
-                    chat_id=TO,
-                    from_chat_id=FROM,
-                    parse_mode=enums.ParseMode.MARKDOWN,       
-                    caption=f"**{message.caption}**",
-                    message_id=message.id
-                )
-                files_count += 1
-                await asyncio.sleep(10)
-            except FloodWait as e:
-                await asyncio.sleep(e.value) 
-            except Exception as e:
-                print(e)
-                pass
-        await asyncio.sleep(20)
-        await m.edit(
-            text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
-            parse_mode=enums.ParseMode.HTML
-        )
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
+        try:
+            if not is_forwarding:
+                break
+            if message.id < start_id or message.id > stop_id:
+                continue
+            if message.video:
+                file_name = message.video.file_name
+            elif message.document:
+                file_name = message.document.file_name
+            elif message.audio:
+                file_name = message.audio.file_name 
+            else:
+                file_name = None               
+            await bot.copy_message(
+                chat_id=TO,
+                from_chat_id=FROM,
+                parse_mode=enums.ParseMode.MARKDOWN,       
+                caption=f"**{message.caption}**",
+                message_id=message.id
+            )
+            files_count += 1
+            await asyncio.sleep(10)
+        except FloodWait as e:
+            await asyncio.sleep(e.value) 
+        except Exception as e:
+            print(e)
+            pass
 
-    is_forwarding = False    
+    is_forwarding = False
+    
     await m.edit(
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
-        parse_mode=enums.ParseMode.HTML
     )
 
 @Client.on_message(filters.private & filters.command(["stop"]))
