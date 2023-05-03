@@ -1,17 +1,23 @@
 import asyncio, sys, os
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import FloodWait
 from config import Config
+from translation import Translation
+import datetime
 
 import logging
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
 
-DOCUMENT = enums.MessagesFilter.DOCUMENT 
-VIDEOS = enums.MessagesFilter.VIDEO
+FROM = Config.FROM_CHANNEL
+TO = Config.TO_CHANNEL
+FILTER = Config.FILTER_TYPE
 
-@Client.on_message(filters.private & filters.command(["clone"]))
+document = enums.MessagesFilter.VIDEO 
+
+@Client.on_message(filters.private & filters.command(["run"]))
 async def run(bot, message):
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
@@ -25,14 +31,19 @@ async def run(bot, message):
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
-            
+        
+    buttons = [[
+        InlineKeyboardButton('🚫 STOP', callback_data='stop_btn')
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
     m = await bot.send_message(
-        text="<i>File Forwarding Started😉</i>",        
+        text="<i>File Forwarding Started😉</i>",
+        reply_markup=reply_markup,
         chat_id=message.chat.id
     )
 
     files_count = 0
-    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=document):
         try:
             if message.id < start_id or message.id > stop_id:
                 continue
@@ -52,15 +63,37 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(10)
+            await asyncio.sleep(2)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
             print(e)
             pass
-
+   # await m.delete()
+    buttons = [[
+        InlineKeyboardButton('📜 Channel', url='https://t.me/Lx0980_Official')
+    ]] 
+    reply_markup = InlineKeyboardMarkup(buttons)
     await m.edit(
-        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
+        text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",
+        reply_markup=reply_markup
     )
 
 
+@Client.on_callback_query(filters.regex(r'^stop_btn$'))
+async def stop_button(c: Client, cb: CallbackQuery):
+    await cb.message.delete()
+    await cb.answer()
+    msg = await c.send_message(
+        text=f"<i>Trying To Stoping..... {datetime.datetime.now()}</i>",
+        chat_id=cb.message.chat.id
+    )
+    await asyncio.sleep(7)
+    await msg.edit(f"<i>File Forword Stoped Successfully 👍 {datetime.datetime.now()}</i>")
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
+    
+@Client.on_callback_query(filters.regex(r'^close_btn$'))
+async def close(bot, update):
+    await update.answer()
+    await update.message.delete()
