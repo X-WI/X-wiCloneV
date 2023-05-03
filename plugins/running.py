@@ -11,11 +11,8 @@ logger = logging.getLogger(__name__)
 DOCUMENT = enums.MessagesFilter.DOCUMENT 
 VIDEOS = enums.MessagesFilter.VIDEO
 
-is_forwarding = False
-
 @Client.on_message(filters.private & filters.command(["clone"]))
 async def run(bot, message):
-    global is_forwarding
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
     
@@ -35,11 +32,8 @@ async def run(bot, message):
     )
 
     files_count = 0
-    is_forwarding = True
-    async for message in bot.search_messages(chat_id=FROM,filter=VIDEOS):
+    async for message in bot.USER.search_messages(chat_id=FROM,filter=VIDEOS):
         try:
-            if not is_forwarding:
-                break
             if message.id < start_id or message.id > stop_id:
                 continue
             if message.video:
@@ -65,20 +59,8 @@ async def run(bot, message):
             print(e)
             pass
 
-    is_forwarding = False
-    
     await m.edit(
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
 
-@Client.on_message(filters.private & filters.command(["stop"]))
-async def stop_forwarding(bot, message):
-    global is_forwarding
-    if str(message.from_user.id) not in Config.OWNER_ID:
-        return
-    
-    if is_forwarding:
-        is_forwarding = False
-        await message.reply_text("File forwarding process stopped.")
-    else:
-        await message.reply_text("File forwarding process is not running.")
+
