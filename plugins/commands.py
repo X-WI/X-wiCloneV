@@ -1,50 +1,32 @@
-import os
-from config import Config
+import logging
+logger = logging.getLogger(__name__)
+
 from translation import Translation
-from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
 
-@Client.on_message(filters.private & filters.command(['start']))
+@Client.on_message(filters.command("start") & filters.private & filters.incoming)
 async def start(client, message):
-    buttons = [[
-        InlineKeyboardButton('📜 Channel', url='https://t.me/Lx0980_Official'),
-        InlineKeyboardButton('Owner ♻️', url='https://t.me/Lx_0980')
-    ],[
-        InlineKeyboardButton('SouceCode 💡', url='https://github.com/Lx0988')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await client.send_message(
-        chat_id=message.chat.id,
-        reply_markup=reply_markup,
-        text=Translation.START_TXT.format(
-                message.from_user.first_name),
-        parse_mode=enums.ParseMode.HTML)
-
-@Client.on_message(filters.private & filters.command(['help']))
-async def help(client, message):
-    buttons = [[
-        InlineKeyboardButton('close 🔐', callback_data='close_btn')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await client.send_message(
-        chat_id=message.chat.id,
-        reply_markup=reply_markup,
-        text=Translation.HELP_TXT,
-        parse_mode=enums.ParseMode.HTML)
-
-@Client.on_message(filters.private & filters.command(['about']))
-async def about(client, message):
-    buttons = [[
-        InlineKeyboardButton('💡 SouceCode', url='https://github.com/Sh-Jil/Forwardit'),
-        InlineKeyboardButton('close 🔐', callback_data='close_btn')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await client.send_message(
-        chat_id=message.chat.id,
-        reply_markup=reply_markup,
-        text=Translation.ABOUT_TXT,
+    await message.reply(
+        text=Translation.START_TXT,
         disable_web_page_preview=True,
-        parse_mode=enums.ParseMode.HTML
+        quote=True
     )
 
-        
+
+@Client.on_message(filters.command("userbot_help") & filters.private & filters.incoming)
+async def help(client, message):
+    await message.reply(
+        text=Translation.HELP_TXT,
+        disable_web_page_preview=True,
+        quote=True
+    )
+
+
+@Client.on_message(filters.command("userbot_about") & filters.private & filters.incoming)
+async def about(client, message):
+    await message.reply(
+        text=Translation.ABOUT_TXT,
+        disable_web_page_preview=True,
+        quote=True
+    )
+
