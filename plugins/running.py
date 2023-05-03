@@ -4,16 +4,10 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQ
 from pyrogram.errors import FloodWait
 from config import Config
 from translation import Translation
-import datetime
 
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
-
-FROM = Config.FROM_CHANNEL
-TO = Config.TO_CHANNEL
-FILTER = Config.FILTER_TYPE
 
 document = enums.MessagesFilter.VIDEO 
 
@@ -63,7 +57,7 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(2)
+            await asyncio.sleep(10)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
