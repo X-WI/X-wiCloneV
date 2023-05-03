@@ -28,20 +28,9 @@ python3 main.py
 ```
 
 ### Variables
-
-* `API_HASH` Your API Hash from my.telegram.org
-* `API_ID` Your API ID from my.telegram.org
-* `BOT_TOKEN` Your bot token from @BotFather
-* `OWNER_ID` Must enter Your Telegram Id
-* `FROM_CHANNEL` Enter any public channel eg:- @abcdefgh
-* `TO_CHANNEL` Your Channel ID eg:- -100xxxxxxxx
-* `CAPTION` If you want to add a caption to the forwarded file, enter it here
-* `FILTER_TYPE` Enter Filter type eg:- document or audio or photo or empty
-* `SKIP_NO` Enter File Skiping Number default number '0' 
-* `SESSION` Enter Pyrogram session string [String Generator](https://replit.com/@ShJil/PyroSessionString)
+PyroSessionString)
 
 
 ### Credits
-
-* [Pyrogram](https://github.com/pyrogram/pyrogram)
+)
 * `Special Thanks Dump Group Members`🤣
