@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 from translation import Translation
 from pyrogram import Client, filters
 
-@Client.on_message(filters.command("start") & filters.private & filters.incoming)
+@Client.on_message(filters.command("userbot_start") & filters.private & filters.incoming)
 async def start(client, message):
     await message.reply(
         text=Translation.START_TXT,
