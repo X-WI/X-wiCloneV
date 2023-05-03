@@ -19,17 +19,18 @@ async def run(bot, message):
     global is_forwarding
     if str(message.from_user.id) not in Config.OWNER_ID:
         return
-    
+
     # Get start and stop message IDs from command
     message_text = message.text.split()
-    if len(message_text) < 4:
-        await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs.")
+    if len(message_text) < 5:
+        await message.reply_text("Please provide From Channel ID, To Channel ID, start and stop message IDs, and delay time in seconds.")
         return
     FROM = int(message_text[1])
     TO = int(message_text[2])
     start_id = int(message_text[3])
     stop_id = int(message_text[4])
-            
+    delay_time = int(message_text[5])
+
     m = await bot.send_message(
         text="<i>File Forwarding Started😉</i>",        
         chat_id=message.chat.id
@@ -37,7 +38,7 @@ async def run(bot, message):
 
     files_count = 0
     is_forwarding = True
-    async for message in bot.search_messages(chat_id=FROM,filter=VIDEOS):
+    async for message in bot.search_messages(chat_id=FROM, filter=VIDEOS):
         try:
             if not is_forwarding:
                 break
@@ -59,7 +60,7 @@ async def run(bot, message):
                 message_id=message.id
             )
             files_count += 1
-            await asyncio.sleep(3)
+            await asyncio.sleep(delay_time)
         except FloodWait as e:
             await asyncio.sleep(e.value) 
         except Exception as e:
@@ -72,6 +73,7 @@ async def run(bot, message):
         text=f"<u><i>Successfully Forwarded</i></u>\n\n<b>Total Forwarded Files:-</b> <code>{files_count}</code> <b>Files</b>\n<b>Thanks For Using Me❤️</b>",        
     )
 
+ 
 @Client.on_message(filters.private & filters.command(["stop"]))
 async def stop_forwarding(bot, message):
     global is_forwarding
